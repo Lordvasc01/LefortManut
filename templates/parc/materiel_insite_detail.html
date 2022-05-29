@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto ">
+        <h4>Détail d'un matériel sur site</h4>
+        <hr>
+        <p>
+            <b>Marque : </b>{{materiel_insite.materiel_type_materiels.marque}} - <b>Modèle : </b>
+            <a title="Voir les détails du matériel type" href="{{url_for('materiel_detail', materiel_id=materiel_insite.materiel_type_materiels.id)}}">{{materiel_insite.materiel_type_materiels.modele}}</a>
+            <b>N° de série : </b>{{materiel_insite.numero_serie}} </p>
+        <p>
+            <b>Info : </b>{{materiel_insite.info}}
+        </p>
+
+    </div>
+    {% for role in current_user.roles %}
+    {% if 'agent'==role.role %}
+    <hr>
+    <div class="row">
+        <div class="col-md-10 mx-auto text-end">
+            <a href="{{url_for('materiel_insite_update',materielinsite_id=materiel_insite.id)}} ">Mettre à jour</a>
+            <a href="{{url_for('ordre_maintenance', materiel_id=materiel_insite.id)}}" class="btn btn-sm btn-danger">Déclencher un om</a>
+
+        </div>
+
+    </div>
+    {% endif %}
+    {% endfor %}
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+<hr>
+        <h5>Listes des interventions</h5>
+        <div>
+            <ul class="">
+                {% for data in  materiel_insite.materiel_interventions%}
+            <li class="card px-5" style="list-style-type: none">
+                <p>
+                    <b>Objet de l'o.m</b>
+                    {% autoescape false %}{% if data.om_interventions.objet %}{{data.om_interventions.objet.replace('\n','<br>')[:300]}} ...{% endif%} {% endautoescape %}
+                </p>
+
+                    <p><b>Travaux réalisé</b>
+                    {% autoescape false %}{% if data.action %}{{data.action.replace('\n','<br>')[:300]}}{% endif%} ...{% endautoescape %}</p>
+
+                <p><b>Status de l'intervention : </b>{{data.status}}</p>
+                <p><a href="{{url_for('intervention_detail', intervention_id=data.id)}}">Voir plus ...</a></p></li>
+            {% endfor %}
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <h4>Détail d'un opérateur</h4>
+        <p><b>Nom: </b>{{operateur.nom}}</p>
+        <p><b>Prénom: </b>{{operateur.prenom}}</p>
+        <p><b>Metier: </b>{{operateur.metier}}</p>
+        <p><b>Matricule: </b>{{operateur.matricule}}</p>
+
+
+        <a href="{{url_for('operateur_update', operateur_id=operateur.id)}}">Mettre à jour</a>
+
+
+    </div>
+</div>
+{% endblock %}

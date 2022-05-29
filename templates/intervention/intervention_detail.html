@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{%block style %}
+<style>
+    #om-click{
+    cursor:pointer;}
+</style>
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <h4>Détail de l'intervention N°{{intervention.id}}</h4>
+    </div>
+
+        <hr>
+</div>
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="alert alert-primary text-center"><h5>Matériel type</h5></div>
+        <p>
+            <b>Matériel :</b>{{intervention.om_interventions.materiel_om.materiel_type_materiels.marque}} - {{intervention.om_interventions.materiel_om.materiel_type_materiels.modele}} -
+            <b>N° série: </b>{{intervention.om_interventions.materiel_om.numero_serie}}
+            <b>Site : </b>{{intervention.om_interventions.materiel_om.site_materiels.nom}} - {{intervention.om_interventions.materiel_om.site_materiels.ville}}
+
+        </p>
+        <div class="d-flex">
+            <p>Documents liés au matériel type: </p>
+         <ul class="d-flex">
+                        {% if intervention.om_interventions.materiel_om.materiel_type_materiels.document %}
+                         {% for doc in intervention.om_interventions.materiel_om.materiel_type_materiels.document %}
+                    <li style="list-style:none;" class="mx-1"><a class="btn badge bg-primary" title="{{doc.descriptif}}" target="_blank" href="{{url_for('download_file', name=doc.path)}}">{{doc.nom}}</a></li>
+
+                        {% endfor %}
+                        {% else %}<li style="list-style:outside;" class="badge bg-secondary">aucun</li>{% endif %}
+                    </ul>
+        </div>
+
+        <hr>
+        </div>
+    </div>
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="alert alert-primary" id="om-click">
+            <span style="position:absolute; left:0px"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                            </svg></span><h5 class="text-center">Ordre de maintenance</h5></div>
+        <div id="om" style="display:none">
+            <p><b>O.m d'origine: </b><a href="{{url_for('ordre_maintenance_detail',ordre_id=intervention.om_interventions.id)}}">om-{{intervention.om_interventions.id}}</a></p>
+
+        <p><b>Objet  :</b> <br>{% if intervention.om_interventions.objet %}
+            {% autoescape false %}
+        {{intervention.om_interventions.objet.replace('\n','<br>')}}
+            {% endautoescape %} {% endif %}</p>
+        <div class="d-flex">
+            <p><b>Documents liés à l'o.m: </b></p>
+            <ul>
+                            {% if intervention.om_interventions.documents %}
+                            {% for doc in intervention.om_interventions.documents %}
+                                <li style="list-style:none;" ><a class="btn badge bg-primary" title="{{doc.descriptif}}" target="_blank" href="{{url_for('download_file', name=doc.path)}}">{{doc.nom}}.</a></li>
+                            {% endfor %}
+                            {% else %}<li style="list-style:outside;" class="badge bg-secondary">aucun</li>{% endif %}
+                        </ul>
+        </div>
+
+
+        <hr>
+    </div>
+
+
+        </div>
+
+</div>
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="alert alert-primary text-center"><h5>Intervention</h5></div>
+        <p><b>Intervenant: </b>{{intervention.operateur_intervention.user.first_name}} {{intervention.operateur_intervention.user.last_name}} -
+            <b>Début intevertion :</b>{% if intervention.date_intervention %} {{intervention.date_intervention.strftime('%d-%m-%Y %H:%M')}} {% endif %} -
+            <b>Fin intevertion : </b>{% if intervention.heure_fin %} {{intervention.heure_fin.strftime('%d-%m-%Y %H:%M')}} {% endif %} -
+            <b>Status :</b><span class="badge bg-secondary">{{intervention.status}}</span>
+        </p>
+        <p><b>Action : </b>{% autoescape false %}{% if intervention.action %}{{intervention.action.replace('\n','<br>')}} {% endif %} {% endautoescape%}</p>
+        <div class="d-flex">
+             <p><b>Documents remis par l'intervenant</b></p>
+        <ul>
+                            {% if intervention.document %}
+                                {% for data in intervention.document %}
+                                <li style="list-style:outside;"><a class="btn badge bg-primary" title="{{data.descriptif}}" target="_blank" href="{{url_for('download_file', name=data.path)}}">{{ data.nom }} - {{data.descriptif[:30]}}</a></li>
+                                {% endfor %}
+
+                            {% else %}
+                            <li style="list-style:outside;" class="badge bg-secondary">aucun</li>
+                            {% endif %}
+                        </ul>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-10 mx-auto text-end mb-4">
+        <hr>
+        {% if intervention.om_interventions.om_status!='clos'%}
+        {% for role in current_user.roles %}
+            {% if 'agent'==role.role %}
+            <a class="btn btn-sm btn-danger" href="{{url_for('intervention_delete', intervention_id=intervention.id)}}">Supprimer</a>
+            {% endif %}
+        {% endfor %}
+        <a class="btn btn-sm btn-success" href="{{url_for('intervention_update', intervention_id=intervention.id)}}">Mettre à jour</a>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="{{url_for('static', filename='js/scripts.js')}}"></script>
+<script>
+    $(document).ready(function(){
+        $('#om-click').click(function(){
+        $('#om').toggle();
+        })
+
+    })
+</script>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <h4>Détail de la gamme</h4>
+        <p><b>Nom: </b>{{gamme.nom}}</p>
+        <p><b>Catégorie: </b>{{gamme.categorie}}</p>
+        <p><b>Périodicité : </b>{{gamme.periodicite}} {{gamme.unite}}</p>
+
+         <p><b>Descriptif :</b><br>
+             {% autoescape false %}
+             {{gamme.descriptif.replace('\n','<br>')}}
+         {% endautoescape %}</p>
+        <hr>
+        <h5>Gamme valable pour les appareils suivants:</h5>
+        <ul>
+            {% for materieltype in gamme.materieltype_gammes %}
+            <li>{{materieltype.marque}} - <a href="{{url_for('materiel_detail', materiel_id=materieltype.id)}}">{{materieltype.modele}}</a></li>
+            {% endfor %}
+        </ul>
+
+        </p>
+        <a href="{{url_for('gamme_update', gamme_id=gamme.id)}}">Mettre à jour</a>
+
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action="" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <h4 class="mb-4">Compléter la demande d'intervention</h4>
+            <hr>
+        </div>
+
+
+    </div>
+<div class="row">
+    <div class="col-md-5 mx-auto">
+        <div class="card">
+
+              <div class="card-header">
+                  <b>Matériel :</b>{{ordre.materiel_om.materiel_type_materiels.marque}} -
+                  <b>Modèle :</b> {{ordre.materiel_om.materiel_type_materiels.modele}} -
+                  <b>N° série: </b>{{ordre.materiel_om.numero_serie}}
+              </div>
+            <div class="card-body">
+                 <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><b>Site: </b> {{ordre.materiel_om.site_materiels.nom}}- {{ordre.materiel_om.site_materiels.ville}}</li>
+                    <li class="list-group-item"><b>Objet:</b> {{ordre.objet}}</li>
+
+                     {% if ordre.gamme_om.id %}
+                <li class="list-group-item">
+                    <p><b>Gamme préventive:  </b><a href="{{url_for('gamme_detail', gamme_id=ordre.gamme_om.id)}}">{{ordre.gamme_om.nom}} - {{ordre.gamme_om.categorie}}</a></p>
+                </li>
+                     {% endif %}
+                     {% if ordre.documents %}
+                     <li class="list-group-item d-flex"><b>Documents: </b>
+                         <ul class="d-flex">
+                             {% for data in ordre.documents %}
+                             <li style="list-style:none"><span title="{{data.descriptif}}">{{data.user.first_name}}</span></li>
+                             {% endfor %}
+                         </ul></li>
+                        {% endif %}
+                    </ul>
+
+
+
+
+            </div>
+
+            <div class="card-footer">
+                <p class="text-muted">Date de l'o.m :</b>{{ordre.date_debut.strftime('%d-%m-%Y')}}</p>
+            </div>
+
+        </div>
+    </div>
+
+        <div class="col-md-5 mx-auto">
+            <div>
+                {{interventionform.csrf_token}}
+                <div class="d-flex justify-content-between">
+                    <div class="mt-2">
+                        <h5 class="text-danger">Chosir l'agent de maintenance</h5>
+                        <div class="mb-3">
+                            <label for="operateur" class="form-label"><b>Agent</b></label>
+                            {{ interventionform.operateur_id}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="mb-3">
+                <div>
+                    <label class=form-label" for="date_intervention"><b>Date d'intervention: </b></label>
+                </div>
+                <div class="input-group" style="width:max-content" >
+
+                    {{interventionform.date_intervention}}
+                    <span id="erase" class="input-group-text"><span class="text-danger"><b>X</b></span></span>
+                </div>
+                </div>
+            <div>
+              <div class="accordion " id="accordionFlushExample">
+                  <div class="accordion-item mx-0 w-100">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        Joindre un document à la demande d'intervention<small class="text-muted d-inline">(optionnnel)</small>
+                   </button>
+                      <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
+                              <div class=" ">
+                                  <div class="mb-1 mx-1 ">
+                                      <div class="w-50">
+                                            <label for="nom" class="form-label"><b>Nom: </b></label>
+                                          </div><div>
+                                    {{docuform.nom}}
+                                      </div>
+
+                                </div>
+                                  <div class="mb-1 mx-1  ">
+                                    <div>
+                                      <label for="description" class="form-label"><b>Description</b></label>
+                                    </div>
+
+                                    <div>
+                                        {{docuform.description}}
+                                    </div>
+
+                                </div>
+                              </div>
+
+                                <div class="mb-1 w-50">
+                                <label for="path" class="form-label"></label>
+                                {{docuform.path}}
+                            </div>
+                            </div>
+                        </div>
+                  </div>
+              </div>
+            </div>
+    </div>
+</div>
+
+
+    <div class="row my-5">
+    <div class="col-md-6 mx-auto text-center">
+        <a href="{{url_for('ordres_maintenance', page=1)}}" class="btn btn-sm btn-warning">Reporter la demande d'intervention</a>
+        <input class="btn btn-sm btn-success" type="submit" value="Enregistrer">
+    </div>
+</div>
+</form>
+{% endblock %}
+{% block script %}
+<script src="{{url_for('static', filename='js/intervention_create.js')}}"></script>
+{% endblock %}

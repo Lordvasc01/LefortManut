@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <h4>Ajout d'un composant</h4>
+        <hr>
+        <form action="" method="post">
+        {% for field in sousensembleform %}
+        <div class="mb-3 d-flex flex-column">
+            <div>
+                {{field.label}}
+            </div>
+            <div>
+                {{field}}
+            </div>
+        </div>
+
+        {% endfor %}
+            <div class="mb-3 text-center">
+    <input type="reset" class="btn btn-sm btn-warning">
+                <input class="btn btn-sm btn-success" value="Enregistrer" type="submit">
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+

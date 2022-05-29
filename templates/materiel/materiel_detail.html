@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/materiel_detail.css')}}">
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="d-flex justify-content-between">
+
+                  <div class=" alert alert-primary">
+                    <h5>Détail du matériel type: </h5>
+                </div>
+
+
+            <div>
+                <button id="deplier" class="btn btn-sm btn-primary">Déplier tout</button>
+            </div>
+
+        </div> <p><u><b>Marque : </b></u>{{materiel.marque}}  <b>Modèle : </b>{{materiel.modele}} <b>Catégorie : </b>{{materiel.categorie}}</p>
+        </div>
+    </div>
+
+
+
+<div class="row">
+        <div class="col-md-10 mx-auto">
+            <hr>
+            <div>
+                     <span class="show alert alert-secondary h6">+&nbsp;Info</span>
+                <div class="show_table">
+                    {% if materiel.info %} {% autoescape false %} {{materiel.info.replace('\n','<br>')}} {% endautoescape %} {% else %} <p>Pas d'info</p>{% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+        <div class="row">
+            <div class="col-md-10 mx-auto ">
+                <hr>
+            <span class="show alert alert-secondary h6">+&nbsp;Outils spécifique</span>
+                <div class="show_table">
+
+
+                        <div class="py-2 row row-cols-3 row-cols-md-3 g-1">
+                            {% if materiel.listeoutils %}
+                                {% for outils in materiel.listeoutils %}
+                            <div class="col mx-auto">
+                                <div class="card mx-1 mb-3" >
+                                    <h6 class="card-header bg-light">{{outils.designation}}</h6>
+                                  <div class="card-body py-0" style="font-size:0.8rem">
+
+                                    <ul>
+                                        <li>Référence: {{outils.reference}}</li>
+                                        <li>Forunisseur: {{outils.fournisseur}}</li>
+                                        <li>Prix: {{outils.prix}} <b>€</b></li>
+                                    </ul>
+                                      <div>
+                                          <b><u>Info:</u><br></b>{% autoescape false %}{{outils.info.replace('\n','<br>')[:150]}}...<a
+                                              href="{{url_for('outil_detail',outil_id=outils.id)}}">Voir plus</a>{% endautoescape%}
+                                      </div>
+                                      <div class="text-end">{% if current_user==materiel.user %}
+                                           <form action="{{url_for('materiel_outil_remove')}}" method="post">
+                                                {{form.csrf_token}}
+
+                                                    <input type="hidden" name="composant_id" value="{{outils.id}}">
+                                                    <input type="hidden" name="materiel_id" value="{{materiel.id}}">
+
+                                                <input title="Retirer l'outil de la liste" type="submit" value="X" class="btn btn-sm btn-danger">
+                                            </form>{% endif %}
+                                      </div>
+                                  </div>
+                                </div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                            <p>Pas d'outils associé</p>
+                            {% endif %}
+                        </div>
+
+                    {% if current_user==materiel.user %}
+                    <p style="text-align:right">
+                        <a href="{{url_for('materiel_add_outil', materiel_id=materiel.id)}}" class="btn btn-sm btn-warning">Associer un outil</a></p>
+                    </p>
+                    {% endif %}
+                </div>
+
+                </div>
+        </div>
+
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <hr>
+                <div>
+                   <span class="show alert alert-secondary h6">+&nbsp;Composant</span>
+                    <div class="show_table">
+                    {% if materiel.sousensembles %}
+
+                      <table class="table ">
+                    <thead>
+                    <tr class="bg-secondary text-light">
+                        <th>id</th>
+                        <th>Désignation</th>
+                        <th>Info</th>
+                    <th>Associer des pièces </th></tr>
+                    </thead>
+                    <tbody>
+                    {% for data in materiel.sousensembles %}
+                    <tr>
+                        <td>{{data.id}}</td>
+                        <td>{{data.designation}}</td>
+                        <td>{{data.info}}</td>
+                        {% if current_user==materiel.user %}
+                        <td class="d-flex justify-content-end">
+                            <span class="btn btn-sm btn-info me-3">Add parts</span>
+                            <form action="{{url_for('materiel_composant_remove')}}" method="post">
+                                {{form.csrf_token}}
+                                    <input type="hidden" name="composant_id" value="{{data.id}}">
+                                    <input type="hidden" name="materiel_id" value="{{materiel.id}}">
+                                <input title="Retire le composant" type="submit" value="X" class="btn btn-sm btn-danger">
+                            </form>
+
+                        </td>
+                        {% else %}
+                        <td></td>{% endif %}
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+                         {% else %}
+                        <p class="mt-3">Pas de composant associé</p>
+                    {% endif %}  {% if current_user==materiel.user %}
+                    <div style="text-align:right">
+                        <a href="{{url_for('materiel_composant_add', materiel_id=materiel.id)}}" class="btn btn-sm btn-warning">Associer un composant</a></p>
+                    </div>
+                        {% endif %}
+                </div>
+
+
+
+                </div>
+
+            </div>
+</div>
+    <div class="row">
+        <div class="col-md-10 mx-auto ">
+            <hr>
+                <span class="show alert alert-secondary h6">+&nbsp;Games préventives</span>
+            <div class="show_table">
+                {% if materiel.gammes %}
+               <div class="py-2 row row-cols-3 row-cols-md-3 g-1">
+
+
+                    {% for gamme in materiel.gammes%}
+                   <div class="col">
+                                <div class="card mx-1 mb-3" >
+                                    <div class="card-header bg-light d-flex justify-content-between">
+                                        <h6 class="">{{gamme.nom}} </h6>
+                                        <div class="text-muted text-end"><small>Type: </small>{{gamme.categorie}}</div>
+                                    </div>
+
+                                    <div class="card-body py-0" style="font-size:0.8rem">
+                                        {% autoescape false %}
+                                        <b>Description: </b><br>
+                                        {{gamme.descriptif.replace('\n','<br>')[:150]}}...
+                                        {% endautoescape  %}
+                                        <p><b>Echéance: </b>{{gamme.periodicite}} {{gamme.unite}}</p>
+                                        <p><b>Matériels concernés: </b>{% for data in gamme.materieltype_gammes %} <a href="">{{data.marque}}-{{data.modele}}</a>,  {% endfor %}</p>
+                                    </div>
+
+                                    <div class="card-footer text-end">
+                                        <a class='btn btn-sm btn-info' href="{{url_for('gamme_detail', gamme_id=gamme.id)}}"><small> Voir plus</small></a>
+                                        <a class='btn btn-sm btn-success' href="{{url_for('gamme_detail', gamme_id=gamme.id)}}"><small> Mettre à jour</small></a>
+                                    </div>
+                                </div>
+                       </div>
+
+                    {% endfor %}
+               </div>
+
+                {% else %}
+                <div>
+                    <p class="mt-3">Pas de gammes préventives associée</p>
+                </div>
+
+                {% endif %}
+                {% if current_user==materiel.user %}
+                <div>
+                     <p style="text-align:right">
+                        <a href="{{url_for('materiel_add_gamme', materiel_id=materiel.id)}}" class="btn btn-sm btn-warning">Associer une gamme </a></p>
+                    </p>
+                </div>
+
+                {% endif %}
+                </div>
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+             <hr>
+            <div>
+                <span class="show alert alert-secondary h6">+&nbsp;Documents disponible</span>
+                <div class="show_table">
+                    <div class="py-2 row row-cols-3 row-cols-md-3 g-1">
+                 {% if materiel.document %}
+                            {% for data in materiel.document %}
+                            <div class="col">
+                                <div class="card mx-1 mb-3" >
+                                    <h6 class="card-header bg-light">{{data.nom}}</h6>
+                                  <div class="card-body py-0" style="font-size:0.8rem">
+                                    {{data.descriptif}}
+
+                                        <p><a title="{{data.descriptif}}" href="{{url_for('download_file', name=data.path)}}" target="_blank">{{data.nom}}</a>
+</p>                                    {% if current_user==materiel.user %}
+                                      <p>                                        <a href="{{url_for('delete_materiel_file', file_id=data.id)}}" class="btn btn-sm text-danger">X</a>
+</p>                                    {% endif %}
+
+                                  </div>
+                                    </div>
+                           </div>
+
+                            {% endfor %}
+
+
+                    {% else %}
+                    <p class="mt-3">Pas de documents enregistré</p>
+                    {% endif %}
+                        </div>
+                    {% if current_user==materiel.user %}
+                <p class="mt-3 text-end"><a class="btn btn-sm btn-warning" href="{{url_for('document_materiel', materieltype_id=materiel.id)}}">Ajouter un document</a></p>
+                {% endif %}
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+        {% if current_user==materiel.user %}
+    <div class="row pb-5">
+        <div class="col-md-6 mx-auto text-end">
+            <a href="{{url_for('materiel_update',materiel_id=materiel.id)}}" class="btn btn-sm btn-success">Mettre à jour</a>
+        </div>
+    </div>
+        {% endif %}
+{% endblock %}
+{% block script %}
+<script src="{{url_for('static', filename='js/materiel_detail.js')}}"></script>
+{% endblock %}

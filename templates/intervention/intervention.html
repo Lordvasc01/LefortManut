@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+
+        <h4>Add order of maintenance</h4>
+
+<form action="" method="post">
+   {% for field in interventionform %}
+<p>{{field.label}} {{field}}</p>
+{% endfor %}
+    <input type="submit">
+</form>
+
+    </div>
+</div>
+
+
+{% endblock %}

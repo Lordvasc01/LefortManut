@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>LeforTManut</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="{{url_for( 'static', filename='assets/logo.png')}}" />
+
+        <!-- Core theme CSS (includes Bootstrap)-->
+
+        <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
+        <link href="{{ url_for('static', filename='css/base.css') }}" rel="stylesheet" />
+        <link href="{{ url_for('static', filename='vendor/datetime_picker/jquery.datetimepicker.css') }}" rel="stylesheet" />
+        {% block style %}
+        {% endblock %}
+    </head>
+    <body>
+
+            <!-- Entête -->
+            <div class="row bg-dark   py-2">
+                    <div class="col-md-2 " >
+                        <nav  class="d-flex navbar-expand-lg navbar-dark bg-dark col-md-12  justify-content-between ps-3">
+                        <div>
+                            <a  style="text-decoration:none; font-size:1.5rem ;color:white" href="{{url_for('index')}}">Lefor<img style="margin-top:-1rem; margin-left:-1rem" width="70px" src="{{url_for('static', filename='assets/logo.png')}}" alt=""><span style="margin-left:-1.5rem">Manut</span></a>
+                        </div>
+
+
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                          <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </nav>
+
+                    </div>
+
+                    <div class="col-md-10 d-flex justify-content-end" id="shortcut">
+                        {% for data in  current_user.roles%}
+
+                        {% if 'agent'==data.role %}
+                        <span class="mx-1">
+                            <a title="Ajout d'un matériel dans un parc" class="btn btn-sm btn-light" href="{{url_for('materielinsite')}}">Add Mat</a>
+                        </span>
+                        <span class="mx-1">
+                            <a title="Crétion d'un om" class="btn btn-sm btn-light"  href="{{url_for('ordre_maintenance')}}">Add o.m</a>
+                        </span>
+                        {% endif %}
+                        {% endfor %}
+                        <span class="mx-1">
+                          <a title="Liste du matériel" class="btn btn-sm btn-light"  href="{{url_for('parcs')}}">Matériels</a>
+                        </span>
+                        <span class="mx-1">
+                          <a title="Liste des om" class="btn btn-sm btn-light"  href="{{url_for('ordres_maintenance', page=1)}}">Liste om</a>
+                        </span>
+                    </div>
+            </div>
+
+           <!-- Page content-->
+            <div class="row justify-content-between bg-dark" >
+                <div class="col-md-2 text-center" style="font-size:0.85rem" >
+                    <nav class="navbar navbar-expand-lg navbar-dark bg-dark pt-0">
+                          <div class="container-fluid">
+                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                    <div  class="w-100">
+                                            <div class=" accordion accordion-flush" >
+                                              <button class="btn btn-dark dropdownMenuButton2" data-bs-target="#maintenance" type="button" data-bs-toggle="collapse" aria-expanded="false">
+                                                Maintenance
+                                              </button>
+                                              <ul class="accordion-collapse collapse accordion-item bg-light"  id="maintenance" aria-labelledby="dropdownMenuButton2">
+                                                  <li><a class="dropdown-item " href="{{url_for('ordres_maintenance',page=1)}}">Ordres maintenance</a></li>
+                                                  <li><a class="dropdown-item " href="{{url_for('interventions')}}">Interventions</a></li>
+                                                    {% for role in current_user.roles %}
+                                                  {% if 'agent'==role.role %}
+                                                  <li><a class="dropdown-item " href="{{url_for('gammes')}}">Gammes préventive </a></li>
+                                                  {% endif %}
+                                                  {% endfor %}
+
+                                                  {% for role in current_user.roles %}
+                                                  {% if 'agent'==role.role %}
+                                                  <li><hr style="color:#eb8b21"></li>
+                                                <li><a class="dropdown-item " href="{{url_for('ordre_maintenance')}}"><b>+</b> Ordre maintenance</a></li>
+                                                  <li><a class="dropdown-item " href="{{url_for('intervention')}}"><b>+</b> Intervention</a></li>
+                                                  <li><a class="dropdown-item " href="{{url_for('gamme')}}"><b>+</b>Gamme préventive</a></li>
+                                                  <li><hr style="color:#eb8b21"></li>
+                                                  <li><a class="dropdown-item " href="{{url_for('echeance')}}">Echéances à venir</a></li>
+                                                  <li><hr style="color:#eb8b21"></li>
+                                                  <li><a class="dropdown-item " href="{{url_for('index')}}">Charge de travail</a></li>
+                                                  {% endif %}
+                                                  {% endfor %}
+                                              </ul>
+                                            </div>
+                                            <div class="accordion accordion-flush mx-1" >
+                                              <button class="btn btn-dark dropdownMenuButton2" data-bs-target="#parc" type="button" data-bs-toggle="collapse" aria-expanded="false">
+                                                Parc matériel
+                                              </button>
+                                              <ul class="accordion-collapse collapse accordion-item bg-light" id="parc" aria-labelledby="dropdownMenuButton2">
+                                                <li><a class="dropdown-item " href="{{url_for('parcs')}}">Matériels en place</a></li>
+                                                  <li><a class="dropdown-item " href="{{url_for('sites')}}">Sites </a></li>
+                                                  {% for role in current_user.roles %}
+                                                  {% if 'agent'==role.role %}
+                                                  <li><hr></li>
+                                                <li><a class="dropdown-item " href="{{url_for('materielinsite')}}"><b>+</b> Matériel dans le parc </a></li>
+                                                <li><a class="dropdown-item " href="{{url_for('site')}}"><b>+</b> Site</a></li>
+                                                  {% endif %}
+                                                  {% endfor %}
+                                              </ul>
+                                            </div>
+                                            <div class="accordion accordion-flush mx-1" >
+                                              <button class="btn btn-dark dropdownMenuButton2" data-bs-target="#magasin" type="button" data-bs-toggle="collapse" aria-expanded="false">
+                                                Magasin
+                                              </button>
+                                              <ul class="accordion-collapse collapse accordion-item bg-light"  id="magasin" aria-labelledby="dropdownMenuButton2">
+                                                <li><a class="dropdown-item " href="{{url_for('articles', page=1)}}">Articles</a></li>
+
+                                                  <li><a class="dropdown-item " href="{{url_for('outils')}}">Outils</a></li>
+                                                  {% for role in current_user.roles %}
+                                                  {% if 'agent'==role.role %}
+                                                  <li><hr></li>
+                                                <li><a class="dropdown-item" href="{{url_for('article')}}"><b>+</b> Article</a></li>
+                                                <li><a class="dropdown-item" href="{{url_for('outil')}}"><b>+</b> Outils</a></li>
+                                                  {% endif %}
+                                                  {% endfor %}
+                                              </ul>
+                                            </div>
+                                          {% for role in current_user.roles %}
+                                                  {% if 'agent'==role.role %}
+                                        <hr>
+                                            <div class="accordion accordion-flush mx-1">
+                                              <button class="btn btn-dark dropdownMenuButton2" data-bs-target="#materiel" type="button" data-bs-toggle="collapse" aria-expanded="false">
+                                                Matériel type
+                                              </button>
+                                              <ul class="accordion-collapse collapse accordion-item bg-light"  id="materiel" aria-labelledby="dropdownMenuButton2">
+                                                    <li><a class="dropdown-item " href="{{url_for('materiels')}}">Materiels</a></li>
+                                                  <li><a class="dropdown-item " href="{{url_for('sous_ensembles')}}">Composants</a></li>
+                                                    {% for role in current_user.roles %}
+                                                  {% if 'agent'==role.role %}
+                                                  <li><hr></li>
+                                                  <li><a class="dropdown-item" href="{{url_for('materiel')}}"><b>+</b> Materiel</a></li>
+                                                <li><a class="dropdown-item" href="{{url_for('sous_ensemble')}}"><b>+</b>Composant</a></li>
+                                                  {% endif %}
+                                                  {% endfor %}
+                                              </ul>
+                                            </div>
+                                        {% endif %}
+                                        {% endfor %}
+                                        <hr>
+                                        {% for role in current_user.roles %}
+                                                  {% if 'admin'==role.role %}
+                                            <div class="accordion accordion-flush mx-1" >
+                                              <button class="btn btn-dark dropdownMenuButton2" data-bs-target="#rh" type="button"  data-bs-toggle="collapse" aria-expanded="false">Ressources humaine</button>
+                                              <ul class="accordion-collapse collapse accordion-item bg-light"  id="rh" aria-labelledby="dropdownMenuButton2">
+                                                <li><a class="dropdown-item " href="{{url_for('operateurs')}}">Operateurs</a></li>
+                                                  <li><a class="dropdown-item " href="{{url_for('operateur')}}"><b>Ajout</b> opérateur </a></li>
+                                              </ul>
+                                            </div>
+                                            <div class="accordion accordion-flush mx-1" >
+                                              <button class="btn btn-dark  dropdownMenuButton2 " data-bs-target="#user" type="button" data-bs-toggle="collapse" aria-expanded="false">
+                                                Utilisateurs
+                                              </button>
+                                              <ul class="accordion-collapse collapse accordion-item bg-light"  id="user" aria-labelledby="dropdownMenuButton2">
+                                                <li><a class="dropdown-item " href="{{url_for('user')}}">Add user</a></li>
+                                                  <li><a class="dropdown-item " href="{{url_for('users')}}">Users</a></li>
+
+                                              </ul>
+                                            </div>
+                                            <div class="accordion accordion-flush mx-1" >
+                                              <button class="btn btn-dark  dropdownMenuButton2 " data-bs-target="#import_doc" type="button" data-bs-toggle="collapse" aria-expanded="false">
+                                                SysAdmin
+                                              </button>
+                                              <ul class="accordion-collapse collapse accordion-item bg-light"  id="import_doc" aria-labelledby="dropdownMenuButton2">
+                                                <li><a class="dropdown-item " href="{{url_for('importation_materiel')}}">Import matériel type</a></li>
+                                                  <li><a class="dropdown-item " href="{{url_for('importation_composant')}}">Import composant</a></li>
+                                                  <li><hr></li>
+                                                  <li><a class="dropdown-item " href="{{url_for('importation_outil')}}">Import outils</a></li>
+                                                  <li><a class="dropdown-item " href="{{url_for('importation_article')}}">Import articles</a></li>
+
+                                              </ul>
+                                            </div>
+                                        {% endif %}
+                                        {% endfor %}
+                                            <div class="accordion accordion-flush mx-1">
+                                                {% if current_user.is_authenticated %}
+                                                <button class="btn btn-dark  dropdownMenuButton2 " data-bs-target="#profil" type="button" data-bs-toggle="collapse" aria-expanded="false">
+                                                {{current_user.username}}
+                                              </button>
+                                                <ul class="accordion-collapse collapse accordion-item bg-light"  id="profil" aria-labelledby="dropdownMenuButton2">
+                                                <li><a class="dropdown-item "href="{{url_for('profil')}}">{{current_user.username}}</a></li>
+                                                  <li><a  aria-current="page" href="{{url_for('logout')}}">Logout</a></li>
+                                                    {% else %}
+                                <li ><a class="dropdown-item " aria-current="page" href="{{url_for('login')}}">Login</a></li>
+
+                            {% endif %}
+
+                                              </ul>
+
+
+                                            </div>
+                                        </div>
+                                </div>
+                          </div>
+                </nav>
+                </div>
+                <div class="col-md-10 pt-5 mx-auto bg-white " style="min-height:83vh;padding-left:0.5rem; padding-right:0.5rem" id="content">
+
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <ul>
+                         {% for message in messages %}
+                        <li>{{message}}</li>
+                        {% endfor %}
+                    </ul>
+
+                    {% endif %}
+                    {% endwith %}
+
+
+                        {% block content %}
+
+
+                    {% endblock %}
+
+
+<div class="row" id="resultat">
+                    <div class="col-md-6 mx-auto">
+                        <div class="alert alert-success" id="resultat-text"></div>
+                    </div>
+                </div>
+
+            </div>
+            </div>
+
+            <!--Footer-->
+            <div class="row bg-dark" style="height:7vh; ; font-size:0.85rem; margin:0px">
+                <div class="col-md-10 mx-auto my-2  " style="color:white; text-align:center">
+                    <span>Développé par Matthieu Duprat à l'aide de Flask</span>
+                    <a href="mailto:matthieu.duprat@angano.fr"><span style="font-size:1rem; margin:1rem; color:#eb8b21;">&#x2709;</span></a>
+                </div>
+            </div>
+
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+            <script src="{{ url_for('static', filename='vendor/datetime_picker/jquery.js') }}"></script>
+            <script src="{{ url_for('static', filename='vendor/datetime_picker/jquery.datetimepicker.full.js') }}"></script>
+            <!-- generate pdf -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+            <script src="{{url_for('static', filename='./vendor/toopdf/dist/html2pdf.bundle.min.js')}}"></script>
+
+            <script>
+            function tooPdf(){
+               var element = document.getElementById('content');
+                var opt = {
+                  margin:       [10,0,10,0],
+                  filename:     'myfile.pdf',
+                  image:        { type: 'jpeg', quality: 1 },
+                  html2canvas:  { scale: 1 },
+                  jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
+                };
+
+                // New Promise-based usage:
+                html2pdf().set(opt).from(element).save();
+
+                // Old monolithic-style usage:
+                  html2pdf(element, opt);
+              }
+
+
+
+
+                
+</script>
+
+
+
+            {% block script %}
+
+    {% endblock %}
+    </body>
+</html>

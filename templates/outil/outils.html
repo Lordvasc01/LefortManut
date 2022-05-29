@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="d-flex justify-content-between">
+            <div class="w-50">
+                <h4>Listes des outils spécifique</h4>
+            </div>
+            <div>
+                    <a href="{{url_for('outil')}}" class="btn btn-sm btn-success">Ajouter un outil</a>
+            </div>
+        </div>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 mx-auto">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>N°</th>
+                <th>Désignation</th>
+                <th>reference</th>
+                <th>prix</th>
+                <th>fournisseur</th>
+                <th>info</th>
+            <th></th></tr>
+
+            </thead>
+            <tbody>{% for materiel in outils_list %}
+            <tr>
+                <td><a href="{{url_for('outil_detail', outil_id=materiel.id)}}">outil-{{materiel.id}}</a></td>
+                <td>{{materiel.designation}}</td>
+                <td>{{materiel.reference}}</td>
+                <td>{{materiel.prix}}</td>
+                <td>{{materiel.fournisseur}}</td>
+                <td>{% autoescape false %} {{materiel.info.replace('\n','<br>')[:250]}} ... {% endautoescape %}</td>
+                <td><a href="{{url_for('outil_delete',outil_id=materiel.id)}}"><span style="color:red; font-weight:bold">X</span></a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+{% endblock %}

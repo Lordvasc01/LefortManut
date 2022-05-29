@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <h4>Ajouter d'un article</h4>
+        <hr>
+        <form action="" method="post">
+        {{articleform.csrf_token}}
+            <div class="mb-3">
+                <label for="Designation_id">Designation</label>
+                {{articleform.designation}}
+            </div>
+            <div class="mb-3">
+                <label for="reference_serie_id">Reference</label>
+                {{articleform.reference}}
+            </div>
+            <div class="mb-3">
+                <label for="prix_id">Prix</label>
+                {{articleform.prix}}
+            </div>
+            <div class="mb-3">
+                <label for="fournisseur_id">Fournisseur</label>
+                {{articleform.fournisseur}}
+            </div>
+            <div class="mb-3">
+                <label for="info_id">Info</label>
+                {{articleform.info}}
+            </div>
+
+<div class="mb-3 text-center">
+    <input type="reset" class="btn btn-sm btn-warning">
+                <input class="btn btn-sm btn-success" value="Enregistrer" type="submit">
+            </div>
+
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+{% endblock %}

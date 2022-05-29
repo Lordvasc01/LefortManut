@@ -1,0 +1,31 @@
+#resultat-marque, #resultat-categorie{
+    cursor: pointer;
+    position:absolute;
+    z-index:1000;
+    width:100%;
+    padding-bottom:3rem;
+    padding-left:1rem;
+    padding-right:1rem;
+    background-color:white;
+    display:none;
+}
+
+#sousensembles, #gammes{
+    display:none;
+}
+
+#show_composant, #show_gamme, #list_marque, #list_categorie{
+    cursor: pointer;
+}
+
+.card{
+    height:max-content;
+}
+
+li{
+    list-style:none;
+}
+li:hover{
+    background-color:grey;
+    color:white;
+}

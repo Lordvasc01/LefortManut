@@ -1,0 +1,10 @@
+li.btn.btn-sm.text-start:hover{
+    background-color:white;
+    font-weight: bolder;
+}
+
+#resultat_search{
+    max-height:40vh;
+    height: max-content;
+    overflow:auto;
+}

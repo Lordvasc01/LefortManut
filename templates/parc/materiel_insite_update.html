@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <h4>Mise à jour d'un materiel existant </h4>
+        <form action="" method="post">
+           {% for field in materiel_insiteform %}
+        <p>{{field.label}} {{field}}</p>
+        {% endfor %}
+
+            <input type="submit">
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

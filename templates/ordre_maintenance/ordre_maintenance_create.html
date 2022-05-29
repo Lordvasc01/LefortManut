@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+
+        <h4>Crétion d'un ordre de maintenance pour un préventif</h4>
+        <hr>
+    </div>
+</div>
+<div class="row justify-content-between">
+
+    <div class="col-md-5 mx-auto">
+       <form action="" method="post">
+        {{ ordre_maintenanceform.csrf_token}}
+<div class="d-flex justify-content-between">
+
+           <div class="mb-3 d-flex flex-column">
+               <div>
+                   <label for="date_debut_id" class="form-label"><b>Date de début: </b></label>
+               </div>
+               <div>
+                   {{ordre_maintenanceform.date_debut}}
+               </div>
+
+
+</div>
+
+</div>
+
+<div class="mb-3">
+  <label for="objet_id" class="form-label"><b>Objet de l'om: </b></label>
+{{ordre_maintenanceform.objet}}
+</div>
+
+<div class="mb-3">
+  <label for="document_id" class="form-label"><b>Document à joindre à l'o.m: </b></label>
+{{ordre_maintenanceform.document}}
+</div>
+
+<div class="text-center">
+    <input type="submit"  class="btn btn-sm btn-success"  value="Enregistrer">
+</div>
+
+        </form>
+    </div>
+    <div class="col-md-5 mx-auto">
+        <div>
+            <div class="d-flex justify-content-between">
+                <div><h5>Matériel</h5></div>
+            <a class="btn btn-sm btn-info" href="{{url_for('materiel_insite_detail', materielinsite_id=materiel.materiel_type_materiels.id)}}">Détail</a>
+            </div>
+
+            <div class="d-flex">
+                <div class="w-50">
+                    <b>Matériel:</b> {{materiel.materiel_type_materiels.marque}} {{materiel.materiel_type_materiels.modele}}
+                </div>
+                <div>
+                    <b>N° de série:</b> {{materiel.numero_serie}}
+                </div>
+
+
+            </div>
+
+        </div>
+        <div>
+            <hr>
+            <div class="d-flex justify-content-between">
+
+                <div><h5>Gamme</h5></div>
+                <a class="btn btn-sm btn-info" href="{{url_for('gamme_detail', gamme_id=gamme.id)}}">Détail</a>
+
+
+            </div>
+            <div class="d-flex ">
+                <div class="w-50">
+                    <b>nom:</b> {{gamme.nom}}
+                </div>
+                <div>
+                    <b>categorie:</b> {{gamme.categorie}}
+                </div>
+            </div>
+            <div class="d-flex ">
+                <div class="w-50">
+                    <b>cout:</b> {{gamme.cout}}
+                </div>
+                <div>
+                    <b>Périodicité:</b>{{gamme.periodicite}}
+                </div>
+            </div>
+            <br>
+            <b>Descriptif:</b>
+            <p>{% autoescape false %}{{gamme.descriptif[:250].replace('\n','<br>')}} {% endautoescape %} ...</p>
+        </div>
+        <div>
+            <hr>
+            Dernier préventif executé le :
+        </div>
+
+    </div>
+
+</div>
+
+
+    </div>
+</div>
+
+
+{% endblock %}

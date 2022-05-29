@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="d-flex justify-content-between">
+            <div class="w-50">
+                <h5>Liste des interventions </h5>
+            </div>
+            {% for role in current_user.roles %}
+            {% if 'agent'==role.role %}
+            <div>
+                    <a href="{{url_for('intervention')}}" class="btn btn-sm btn-success">Ajouter une intervention</a>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        <hr>
+    </div>
+</div>
+<div class="row" >
+    <div class="table-responsive-md">
+
+        <table class="table table-sm table-striped table-hover">
+            <thead>
+
+            <tr>
+                <th>N° intervention</th>
+                <th>date creation</th>
+                <th>om</th>
+                <th>Materiel</th>
+                <th>Site</th>
+                <th>Objet de l'intervention</th>
+
+                <th>Technicien</th>
+            </thead>
+            <tbody>{% for intervention in interventions.items %}
+            <tr data-status="{{intervention.status}}" data-date-cloture="{% if intervention.om_interventions.date_debut%} {{intervention.om_interventions.date_debut.strftime('%d-%m-%Y')}}{% else %} none {% endif %}">
+                <td class="text-center"><a href="{{url_for('intervention_detail', intervention_id=intervention.id)}}">d.i-{{intervention.id}}</a></td>
+                <td>{% if intervention.om_interventions.date_debut%} {{intervention.om_interventions.date_debut.strftime('%d-%m-%Y')}} {% endif %}</td>
+                <td><a href="{{url_for('ordre_maintenance_detail', ordre_id=intervention.om_interventions.id)}}">om-{{intervention.om_interventions.id}}</a></td>
+                <td><a href="{{url_for('materiel_insite_detail', materielinsite_id=intervention.om_interventions.materiel_om.id)}}">{{intervention.om_interventions.materiel_om.materiel_type_materiels.marque}} - {{intervention.om_interventions.materiel_om.materiel_type_materiels.modele}} - N°:{{intervention.om_interventions.materiel_om.numero_serie}}</a></td>
+                <td>{{intervention.om_interventions.materiel_om.site_materiels.nom}} - {{intervention.om_interventions.materiel_om.site_materiels.ville}}</td>
+                <td>{{intervention.om_interventions.objet|truncate(30)}}</td>
+                <td>{{intervention.operateur_intervention.user.first_name}} {{intervention.operateur_intervention.user.last_name}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+<div class="row">
+    <div class="col-md-8 mx-auto text-center d-flex justify-content-center">
+
+
+      <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+              {% if interventions.prev_num %}
+            <li class="page-item"><a class="page-link" href="{{url_for('interventions', page=interventions.prev_num)}}">Previous</a></li>
+              {% endif%}
+          {%- for page in interventions.iter_pages() %}
+            {% if page %}
+              {% if page != interventions.page %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('interventions', page=page) }}">{{ page }}</a></li>
+              {% else %}
+                <li class="page-item page-link"><strong>{{ page }}</strong></li>
+              {% endif %}
+            {% else %}
+              <span class=ellipsis>…</span>
+            {% endif %}
+          {%- endfor %}
+
+              {% if interventions.next_num %}
+            <li class="page-item"><a class="page-link" href="{{url_for('interventions', page=interventions.next_num)}}">Next</a></li>
+              {% endif %}
+
+          </ul>
+        </nav>
+</div>
+
+{% endblock %}

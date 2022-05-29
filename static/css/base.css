@@ -1,0 +1,105 @@
+button{
+border-color:#eb8b21;
+color:yellow;
+}
+.dropdownMenuButton2{
+border:double 1px #eb8b21;
+width:86%;
+margin:auto;
+font-size:100%;
+margin:0.2rem 0px
+}
+.dropdownMenuButton2:hover{
+    font-size:95%;
+    color: black;
+    background-color:white;
+}
+
+.btn-logo{
+    color:white;
+    background-color:black;
+    border:double 1px #eb8b21;
+}
+
+.accordion-flush .accordion-item{
+    margin: 0.5rem auto;
+    position:relative;
+    width:75%;
+    z-index:1;
+    background-color:white;
+    list-style:none;
+    padding-left:0rem;
+    padding-top:0.5rem;
+    padding-bottom:0.5rem;
+    border-radius: 5px;
+    text-align: center;
+    border-style: solid;
+    border-color: #f7e7e7ab;
+    border-width: 1px;
+}
+li{
+text-align:left;
+}
+
+.content2{
+z-index=0;
+}
+
+.container-fluid{
+    padding: 0px;
+    margin:0px;
+}
+#resultat{
+    position: absolute;
+    width: 100%;
+    top: 0px;
+    background-color: white;
+    display:none;
+}
+#content{
+position:relative;
+
+}
+.table{
+    overflow-x:hidden;
+}
+
+.card{
+    box-shadow: -2px 2px #4e4f4f;
+}
+
+.form-control{
+    display:inline;
+    width:10rem;
+}
+
+#titre{
+    border-bottom: solid 1px beige;
+}
+
+.alert{
+    padding:0.5rem;
+    color:black;
+}
+.table{
+font-size:0.85rem}
+
+#erase{
+    cursor: pointer;
+}
+
+.alert{
+    font-size:0.9rem;
+}
+
+b{
+    font-size:0.9rem;
+}
+
+#shortcut a{
+    font-size:0.75rem;
+}
+
+#content{
+    font-size:1rem;
+}

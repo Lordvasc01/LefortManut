@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <h4>Ajout d'une gamme de maintenance</h4>
+        <hr>
+        <form action="" method="post">
+            {{ gammeform.csrf_token}}
+           <div class="d-flex justify-content-start">
+               <div class="mx-1 d-flex flex-column">
+                   <div>
+                       <label for="nom">Nom</label>
+                   </div>
+                   <div>{{gammeform.nom}}
+                       <ul>
+                           {% for error in gammeform.nom.errors %}
+                            <li>{{error}}</li>
+                           {% endfor %}
+                       </ul>
+                   </div>
+               </div>
+               <div class="mx-1 d-flex flex-column">
+                   <div>
+                       <label for="periodicite">Périodicite</label>
+                   </div>
+                   <div>{{gammeform.periodicite}}
+                       <ul>
+                           {% for error in gammeform.periodicite.errors %}
+                            <li>{{error}}</li>
+                           {% endfor %}
+                       </ul>
+                   </div>
+               </div>
+               <div class="mx-1 d-flex flex-column">
+                   <div>
+                       <label for="unite">Unité</label>
+                   </div>
+                   <div>{{gammeform.unite}}
+                       <ul>
+                           {% for error in gammeform.unite.errors %}
+                            <li>{{error}}</li>
+                           {% endfor %}
+                       </ul>
+                   </div>
+               </div>
+               <div class="mx-1 d-flex flex-column">
+                   <div>
+                       <label for="categorie">Catégorie</label>
+                   </div>
+                   <div>{{gammeform.categorie}}
+                       <ul>
+                           {% for error in gammeform.categorie.errors %}
+                            <li>{{error}}</li>
+                           {% endfor %}
+                       </ul>
+                   </div>
+               </div>
+               <div class="mx-1 d-flex flex-column">
+                   <div>
+                       <label for="cout">Coût</label>
+                   </div>
+                   <div>{{gammeform.cout}}
+                       <ul>
+                           {% for error in gammeform.cout.errors %}
+                            <li>{{error}}</li>
+                           {% endfor %}
+                       </ul>
+                   </div>
+               </div>
+
+
+           </div>
+            <div>
+                <label for="descriptif">Description</label>
+                {{gammeform.descriptif}}
+            </div>
+                        <div>
+                <label for="descriptif">Matériel type</label>
+                {{gammeform.materieltype}}
+            </div>
+                    <div class="mb-3 text-center">
+    <input type="reset" class="btn btn-sm btn-warning">
+                <input class="btn btn-sm btn-success" value="Enregistrer" type="submit">
+            </div>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

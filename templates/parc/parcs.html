@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/parcs.css')}}">
+{% endblock %}
+
+{% block content %}
+{% with matos=parcs.items %}
+
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="d-flex">
+            <div class="w-50">
+                <h4>Liste du matériel en place</h4>
+            </div>
+            <div style="position:relative">
+                <div class="input-group">
+                    <span class="input-group-text">Materiel</span>
+                    <input type="search" class="form-control" placeholder="Search" id="search_materiel" autocomplete="off">
+                    <span class="input-group-text" id="raz_search"><span class="text-danger"><b>X</b></span></span>
+                </div>
+                <div id="resultat_search"></div>
+
+            </div>
+
+
+        </div>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 mx-auto">
+
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Matériel</th>
+
+                <th>Catégorie</th>
+                <th>N° série</th>
+                <th>Site</th>
+
+                <th>Info</th>
+                </tr>
+            </thead>
+            <tbody>{% for materiel in matos %}
+            <tr>
+
+                <td>{{materiel.materiel_type_materiels.marque}} _ {{materiel.materiel_type_materiels.modele}}</td>
+                <td>{{materiel.materiel_type_materiels.categorie}}</td>
+                <td><a href="{{url_for('materiel_insite_detail', materielinsite_id=materiel.id)}}">{{materiel.numero_serie}}</a></td>
+
+                <td>{{materiel.site_materiels.nom}} - {{materiel.site_materiels.ville}}</td>
+
+                <td>{{materiel.info}}</td>
+                <td><a href="{{url_for('materielinisite_delete',materiel_id=materiel.id)}}"><span style="color:red; font-weight:bold">X</span></a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+<div class="row">
+    <div class="col-md-8 mx-auto text-center d-flex justify-content-center">
+
+
+      <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+              {% if parcs.prev_num %}
+            <li class="page-item"><a class="page-link" href="{{url_for('parcs', page=parcs.prev_num)}}">Previous</a></li>
+              {% endif%}
+          {%- for page in parcs.iter_pages() %}
+            {% if page %}
+              {% if page != parcs.page %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('parcs', page=page) }}">{{ page }}</a></li>
+              {% else %}
+                <li class="page-item page-link"><strong>{{ page }}</strong></li>
+              {% endif %}
+            {% else %}
+              <span class=ellipsis>…</span>
+            {% endif %}
+          {%- endfor %}
+
+              {% if parcs.next_num %}
+            <li class="page-item"><a class="page-link" href="{{url_for('parcs', page=parcs.next_num)}}">Next</a></li>
+              {% endif %}
+
+          </ul>
+        </nav>
+</div>
+
+
+
+        <div class="col-md-2 me-4 text-end">
+            <a href="{{url_for('materielinsite')}}" class="btn btn-sm btn-success">Ajouter un matériel</a>
+    </div>
+</div>
+
+{% endwith %}
+{% endblock %}
+{% block script %}
+<script src="{{url_for('static',filename='js/materiel_list.js')}}"></script>
+{% endblock %}

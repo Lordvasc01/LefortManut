@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="d-flex justify-content-between">
+                <div class="w-50 alert alert-primary">
+                    <h5>Mise à jour de l'outil N°{{outil.id}}</h5>
+                </div>
+            <div>
+                <img src="{{url_for('static',filename='assets/fond.png')}}" style="position:absolute; z-index:10; right:5rem; top:1rem" width="90" />
+            </div>
+
+
+        </div>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <form action="" method="post">
+            {% for field in outilform %}
+            <p>{{field.label}}</p>
+            <p>{{field}}</p>
+            <ul>{% for error in field.errors%}<li>{{error}}</li> {% endfor%}</ul>
+            {% endfor %}
+            <input type="submit" value="Mettre à jour" class="btn btn-sm btn-success">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

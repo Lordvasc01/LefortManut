@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/materiel.css')}}">
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <h4>Ajout d'un matériel type</h4>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8 mx-auto">
+
+        <form action="" method="post">
+
+        {{materielform.csrf_token}}
+            <div class="d-flex justify-content-between">
+                  <div class="w-25 me-1 mb-3 d-flex flex-column btn-group">
+                    <label for="marque">Marque
+                        </label>
+                    <div class="input-group">
+                        {{materielform.marque}}
+                        <span class="input-group-text" id="list_marque" title="Voir l'ensemble des marques déjà saisie">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                            </svg>
+                        </span>
+                    </div>
+                    <div style="position:relative">
+                            <div id="resultat-marque" class="form-control">
+                        </div>
+
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+                <div class="w-25 mx-3 mb-3 d-flex flex-column">
+                    <label for="modele">Modele</label>
+                    {{materielform.modele}}
+                </div>
+                <div class="w-50 mb-3 d-flex flex-column btn-group">
+                    <label for="categorie">Categorie
+                        </label>
+                    <div class="input-group">
+                        {{materielform.categorie}}
+                        <span class="input-group-text" id="list_categorie" title="Voir l'ensemble des catégories déjà saisie">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                            </svg>
+                        </span>
+                    </div>
+                    <div style="position:relative">
+                            <div id="resultat-categorie" class="form-control">
+                        </div>
+
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="d-flex justify-content-around my-3">
+               <div class="mb-3 card w-50 me-3" style="width:max-content">
+                    <label for="sousensembles_id" class="card-header d-flex justify-content-between">Composants
+                        <span id="show_composant" title="Voir l'ensemble des composant">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                       </svg>
+                   </span></label>
+
+                    {{materielform.sousensembles}}
+
+                </div>
+                <div class="mb-3 card w-50 ms-3" style="width:max-content">
+                    <label for="gammes" class="card-header d-flex justify-content-between">Gammes préventive
+                        <span id="show_gamme" title="Voir l'ensemble des gammes">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                       </svg>
+                   </span></label>
+                    {{materielform.gammes}}
+                </div>
+
+            </div>
+
+
+
+            <div class="mb-3 form-group d-flex flex-column">
+                <label for="info">Info</label>
+                {{materielform.info}}
+            </div>
+
+<div class="mb-3 text-center">
+    <input type="reset" class="btn btn-sm btn-warning">
+                <input class="btn btn-sm btn-success" value="Enregistrer" type="submit">
+            </div>
+
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+{% endblock %}
+{% block script %}
+<script src="{{url_for('static', filename='js/materiel.js')}}"></script>
+{% endblock %}

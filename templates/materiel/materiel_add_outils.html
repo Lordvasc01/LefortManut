@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <h4>Associer un outil à un appareil</h4>
+        <h6>Appareil: {{materiel.marque}} - {{materiel.modele}}</h6>
+        <hr>
+        <form action="" method="post">
+  {% for field in materiel_add_outilform %}
+        <p>{{field.label}}{{field}}</p>
+
+        {% endfor %}
+            <input type="submit">
+        </form>
+
+
+
+
+
+
+    </div>
+
+</div>
+
+
+{% endblock %}

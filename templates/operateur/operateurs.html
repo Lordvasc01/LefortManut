@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="d-flex justify-content-between">
+            <div class="w-50">
+                <h4>Listes des opérateurs </h4>
+            </div>
+            <div>
+                    <a href="{{url_for('operateur')}}" class="btn btn-sm btn-success">Ajouter un opérateur</a>
+            </div>
+        </div>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 mx-auto">
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>prénom</th>
+                <th>Métiers</th>
+                <th>Matricule</th>
+               </tr>
+            </thead>
+            <tbody>{% for operateur in operateurs %}
+            <tr>
+                <td><a href="{{url_for('operateur_detail', operateur_id=operateur.id)}}">{{operateur.user.last_name}}</a></td>
+                <td>{{operateur.user.first_name}}</td>
+                <td>{{operateur.metier}}</td>
+                <td>{{operateur.matricule}}</td>
+                <td><a href="{{url_for('operateur_delete', operateur_id=operateur.id)}}"><span style="color:red; font-weight:bold">X</span></a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+{% endblock %}

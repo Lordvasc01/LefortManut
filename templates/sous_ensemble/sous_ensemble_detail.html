@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <h4>Détail d'un composant</h4>
+        <h5>{{sous_ensemble.designation}}</h5>
+        <p>{{sous_ensemble.info}}</p>
+        <a href="{{url_for('sous_ensemble_update', sous_ensemble_id=sous_ensemble.id)}}">Mettre à jour</a>
+        <hr>
+        <h5>Utilisé sur les appareil suivants</h5>
+        {% for data in sous_ensemble.materieltypes %}
+        <p>{{data.id}} {{ data.marque}} {{data.modele}}</p>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+
+{% endblock %}

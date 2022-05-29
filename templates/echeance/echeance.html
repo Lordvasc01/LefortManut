@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <h5>échéances</h5>
+
+        <hr>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Matériel</th>
+                <th>N°série</th>
+                <th>Site</th>
+                <th>Gamme</th>
+                <th>Type Gamme</th>
+
+                <th>En retard de:</th></tr>
+            </thead>
+            <tbody>
+            {% for key,value in echeance.items() %}
+        {% for data in value %}
+        <tr>
+                <td>{{key.materiel_type_materiels.marque}} _ {{key.materiel_type_materiels.modele}}</td>
+                <td><a href="{{url_for('materiel_insite_detail',materielinsite_id=key.id)}}">{{key.numero_serie}}</a></td>
+                <td>{{key.site_materiels.ville}} - {{key.site_materiels.nom}}</td>
+                <td><a href="{{url_for('gamme_detail',gamme_id=data.id)}}">{{data.nom}}</a></td>
+                <td>{{data.categorie}}</td>
+                <td>{{data.periodicite}} </td>
+            <td><a class=" btn-logo btn btn-sm btn-danger" href="{{url_for('om_create',materiel_id=key.id,gamme_id=data.id)}}">Déclencher l'om</a></td>
+            </tr>
+
+        {% endfor %}
+
+        {% endfor %}
+            </tbody>
+        </table>
+
+
+
+    </div>
+</div>
+{% endblock %}

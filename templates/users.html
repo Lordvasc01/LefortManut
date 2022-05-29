@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="d-flex justify-content-between">
+            <div class="w-50">
+                <h4>Listes des utilisateur </h4>
+            </div>
+            <div>
+                    <a href="{{url_for('user')}}" class="btn btn-sm btn-success">Ajouter un utilisateur</a>
+            </div>
+        </div>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10 mx-auto  bg-light">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User name</th>
+                    <th>First_name</th>
+                    <th>Last name</th>
+                    <th>Email</th>
+                    <th>Roles</th>
+                </tr>
+            </thead>
+            <tbody>{% for user in users %}
+                <tr>
+                    <td><a href="{{url_for('edit_user', user_id=user.id)}}">{{user.username}}</a></td>
+                    <td>{{user.first_name}}</td>
+                    <td>{{ user.last_name}}</td>
+                    <td>{{ user.email}}</td>
+                    <td>{% for role in user.roles%}{{role.role}} {% endfor %}</td>
+                    <td><a href="{{url_for('user_delete',user_id=user.id)}}"><span class="text-danger"><b>X</b></span></a></td>
+                </tr>{% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

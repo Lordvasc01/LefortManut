@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<span id="data">
+
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <h4>Ajouter un document au matériel N°{{materiel_type.id}}</h4>
+        <p><b>Matériel :</b>{{materiel_type.marque}}  <b>Modèle: </b>{{materiel_type.modele}} <b>Catégorie :</b>{{materiel_type.categorie}}</p>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <form action="" method="post" enctype="multipart/form-data">
+            {{documentform.csrf_token}}
+        <div class="mb-3">
+            <label for="nom_id" class="form_label">Nom</label>
+            {{documentform.nom}}
+        </div>
+            <div class="mb-3">
+                <label for="description_id" class=form_label">Description</label>
+                {{documentform.description}}
+            </div>
+            <div class="mb-3">
+                {{documentform.path}}
+            </div>
+            <div class="text-center mb-3">
+                <input type="submit" class="btn btn-sm btn-success">
+            </div>
+
+        </form>
+    </div>
+</div>
+</span>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+
+        <h4>update order of maintenance - sélection gamme préventif</h4>
+
+<form action="" method="post">
+
+    {{ordreform.hidden_tag()}}
+<p>{{ordreform.gamme_id.label}} {{ordreform.gamme_id}}
+    <ul>{% for error in ordreform.errors %} <li class="badge bg-danger">{{error}} {% endfor %}</li></ul></p>
+
+    <input type="submit">
+</form>
+
+    </div>
+</div>
+
+
+{% endblock %}

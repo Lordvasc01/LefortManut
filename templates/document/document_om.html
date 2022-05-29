@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<span class="data">
+
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <h4>Ajouter un document à l'ordre de maintenance N°{{ordre.id}}</h4>
+        <hr>
+    </div>
+</div>
+
+
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+
+            {% if documentform.nom.errors %}
+               {{documentform.email(class="form-control is-invalid")}}
+               {% for error in form.nom.errors %}
+                   <div class="invalid-feedback">
+                       <span>{{error}}</span>
+                   </div>
+               {% endfor %}
+            {% endif %}
+            {% if documentform.description.errors %}
+               {{documentform.description(class="form-control is-invalid")}}
+               {% for error in form.description.errors %}
+                   <div class="invalid-feedback">
+                       <span>{{error}}</span>
+                   </div>
+               {% endfor %}
+            {% endif %}
+            {% if documentform.path.errors %}
+               {{documentform.path(class="form-control is-invalid")}}
+               {% for error in form.nom.errors %}
+                   <div class="invalid-feedback">
+                       <span>{{error}}</span>
+                   </div>
+               {% endfor %}
+            {% endif %}
+
+        </div>
+
+    </div>
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <form action="" method="post" enctype="multipart/form-data">
+            {{documentform.csrf_token}}
+        <div class="mb-3">
+            <label for="nom_id" class="form_label">Nom</label>
+            {{documentform.nom}}
+        </div>
+            <div class="mb-3">
+                <label for="description_id" class=form_label">Description</label>
+                {{documentform.description}}
+            </div>
+            <div class="mb-3">
+                {{documentform.path}}
+            </div>
+            <div class="text-center mb-3">
+                <input type="submit" class="btn btn-sm btn-success">
+            </div>
+
+        </form>
+    </div>
+</div>
+</span>
+{% endblock %}

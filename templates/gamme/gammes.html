@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="d-flex justify-content-between">
+            <div class="w-50">
+                <h4>Listes des gammes </h4>
+            </div>
+            <div>
+                    <a href="{{url_for('gamme')}}" class="btn btn-sm btn-success">Ajouter une gamme</a>
+            </div>
+        </div>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 mx-auto">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Type</th>
+                <th>Descriptif</th>
+                <th>Coût</th>
+                <th>Périodicité</th>
+                <th></th>
+                <th>Matériel concernés</th>
+                </tr>
+            </thead>
+            <tbody>{% for gamme in gammes %}
+            <tr>
+                <td><a href="{{url_for('gamme_detail', gamme_id=gamme.id)}}">{{gamme.nom}}</a></td>
+                <td>{{gamme.categorie}}</td>
+                <td>{{gamme.descriptif|truncate(250)}}</td>
+                <td>{{gamme.cout}}</td>
+                <td>{{gamme.periodicite}}</td>
+                <td>{{gamme.unite}}</td>
+                <td>{% for data in gamme.materieltype_gammes%}{{data.marque}} - <a href="{{url_for('materiel_detail', materiel_id=data.id)}}">{{data.modele}}</a> {% endfor%}</td>
+                <td><a href="{{url_for('gamme_delete', gamme_id=gamme.id)}}"><span style="color:red; font-weight:bold">X</span></a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+{% endblock %}

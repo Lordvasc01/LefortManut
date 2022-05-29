@@ -1,0 +1,13 @@
+#resultat_search{
+    width:max-content;
+    color:red;
+    position:absolute;
+    z-index:10;
+}
+#resultat_search li:hover{
+    background-color:white;
+}
+
+#raz_search li input{
+    cursor: pointer;
+}

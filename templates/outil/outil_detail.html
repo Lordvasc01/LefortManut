@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/ordre_maintenance_detail.css')}}">
+{% endblock %}
+
+{% block content %}
+
+
+
+
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="d-flex justify-content-between">
+                <div class="w-75 alert alert-primary">
+                    <h5>Détail de l'outil N°{{outil.id}}</h5>
+                </div>
+            <div>
+                <img src="{{url_for('static',filename='assets/fond.png')}}" style="position:absolute; z-index:10; right:5rem; top:1rem" width="90" />
+            </div>
+
+
+        </div>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <p><b>Désignation : </b>{{outil.designation}}</p>
+        <p><b>Référence : </b>{{outil.reference}}</p>
+        <p><b>Fournisseur : </b>{{outil.fournisseur}}</p>
+        <p><b>Prix : </b>{{outil.prix}}</p>
+        <p><b>Info : </b> <br>{% autoescape false %} {{outil.info.replace('\n','<br>')}}{% endautoescape%}</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-10 mx-auto text-end mb-5">
+        <a href="{{url_for('outil_delete', outil_id=outil.id)}}" class="btn btn-sm btn-danger">Supprimer</a>
+        <a href="{{url_for('outil_update',outil_id=outil.id)}}" class="btn btn-sm btn-success">Mettre à jour</a>
+    </div>
+</div>
+
+
+{%endblock%}

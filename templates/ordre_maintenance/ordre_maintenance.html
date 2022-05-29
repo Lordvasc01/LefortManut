@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/ordre_maintenance.css')}}">
+{% endblock %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <h4>Crétion d'un ordre de maintenance</h4>
+        <hr>
+    </div>
+</div>
+<form action="" method="post" enctype="multipart/form-data">
+<div class="row ">
+
+    <div class="col-md-6 mx-auto">
+            {{ ordre_maintenanceform.csrf_token }}
+
+                <div class="mb-1">
+                   <label for="operateur_id" class="form-label"><b>Matériel: </b></label>
+                   {{ordre_maintenanceform.materiel_id}}
+                    {% if not materiel %}
+                    <div>
+                        <input type="text" id="search_materiel" class="form-control w-100" autocomplete='off' >
+                    </div>
+                    {% else %}
+
+                    <div>{{materiel.materiel_type_materiels.marque}} {{materiel.materiel_type_materiels.modele}} {{materiel.numero_serie}}</div>
+                    <div>{{materiel.site_materiels.nom}} {{materiel.site_materiels.ville}}</div>
+
+                    {% endif %}
+                    <div id="display" style="display:none">
+                        <div id="client"></div>
+                    <div id="materiel_data"></div>
+                        <div id="raz_search" class="btn btn-sm btn-warning">Modifier</div>
+
+
+                    </div>
+
+                    <div id="resultat_search" ></div>
+               </div>
+    </div>
+</div>
+    <div class="row">
+        <div class="col-md-6 mx-auto d-flex justify-content-start">
+
+                <div class="mb-1 mx-1 d-flex flex-column">
+                    <label for="date_debut_id" class="form-label"><b>Date de l'om: </b></label>
+                    {{ordre_maintenanceform.date_debut}}
+                    {% if ordre_maintenanceform.date_debut.errors %}
+                    {{ordre_maintenanceform.date_debut(class="form-control is-invalid")}}
+                    {{ordre_maintenanceform.date_debut.errors[0]}}
+                    {% endif %}
+                </div>
+            <div class="mb-1 mx-1 d-flex flex-column">
+                    <label for="operateur_id" class="form-label"><b>Type d'intervention</b></label>
+                    {{ordre_maintenanceform.origine_om}}
+                </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="mb-1">
+               <label for="objet_id" class="form-label"><b>Objet de l'om: </b></label>
+                {{ordre_maintenanceform.objet}}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-6 mx-auto ">
+              <div class="accordion " id="accordionFlushExample">
+                  <div class="accordion-item mx-0 w-100">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        Joindre un document à l'o.m: (optionnel)
+                   </button>
+                      <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
+                              <div class="d-flex justify-content-start ">
+                                  <div class="mb-1 mx-1 ">
+                                      <div>
+                                            <label for="nom" class="form-label"><b>Nom: </b></label>
+                                          </div><div>
+                                    {{docuform.nom}}
+                                      </div>
+
+                                </div>
+                                  <div class="mb-1 mx-1  ">
+                                    <div>
+                                      <label for="description" class="form-label"><b>Description</b></label>
+                                    </div>
+
+                                    <div>
+                                        {{docuform.description}}
+                                    </div>
+
+                                </div>
+                              </div>
+
+                                <div class="mb-1">
+                                <label for="path" class="form-label"></label>
+                                {{docuform.path}}
+                            </div>
+                            </div>
+                        </div>
+                  </div>
+              </div>
+        </div>
+    </div>
+
+<div class="row">
+    <div class="col-md-10 mx-autO">
+        <div class="text-center my-5">
+        <input type="submit"  class="btn btn-sm btn-success"  value="Enregistrer">
+    </div>
+    </div>
+</div>
+</form>
+{% endblock %}
+{% block script %}
+<script src="{{url_for('static', filename='js/ordre_maintenance.js')}}"></script>
+{% endblock %}

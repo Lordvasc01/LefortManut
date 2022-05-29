@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/materiel_inside.css')}}">
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <h4>Insertion d'un matériel dans un parc</h4>
+        <hr>
+
+    </div>
+</div>
+
+
+
+<form action="" method="post">
+<div class="row">
+    <div class="col-md-4 offset-md-1 ">
+        {{materielform.csrf_token}}
+        <div class="mb-3 d-flex flex-column">
+            <div>
+                <label for="materieltype_id">Matériel type</label>
+            </div>
+            <div class=" input-group ">
+                <input type="search" id="search_materieltype" class="form-control" autocomplete="off" placeholder="Search">
+                <span id="see_material" title="Voir l'ensemble des matériels type" class="input-group-text">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                   </svg>
+                </span>
+            </div>
+        </div>
+        <div id="resultat-row">
+    <div class="col-md-10 mx-auto" id="resultat-materieltype"></div>
+</div>
+        {{materielform.materieltype_id}}
+        </div>
+    <div class="col-md-4 md-offset-2">
+        <div class="mb-3 d-flex flex-column">
+             <div class="mx-1">
+                 <label for="numero_serie">Numéro de série</label>
+             </div>
+            <div class="mx-1">
+                {{materielform.numero_serie}}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 ">
+        <div class="mb-3 d-flex flex-column">
+            <div class="mx-1">
+                <label for="site">Site</label>
+            </div>
+            <div class="mx-1">
+                {{materielform.site_id}}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="mb-3">
+        <label for="info">Info</label>
+        {{materielform.info}}
+    </div>
+        <div class="mb-3 text-center">
+        <input type="reset" class="btn btn-sm btn-warning">
+        <input class="btn btn-sm btn-success" value="Enregistrer" type="submit">
+    </div>
+    </div>
+</div>
+ </form>
+{% endblock %}
+{% block script %}
+<script src="{{url_for('static', filename='js/materiel_insite.js') }}"></script>
+{% endblock %}

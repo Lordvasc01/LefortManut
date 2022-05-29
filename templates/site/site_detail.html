@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="d-flex justify-content-between">
+
+                   <h4 style="text-decoration:underline" class="margin-auto">Détail d'un site</h4>
+
+            </div>
+        </div>
+    </div>
+<div class="row">
+    <div class="col-md-10 mx-auto">
+    <p>site id:{{site.id}}</p>
+        <p>nom {{site.nom}}</p>
+        <p>ville {{site.ville}}</p>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Marque</th>
+                <th>Modèle</th>
+                <th>N°série</th></tr>
+            </thead>
+            <tbody>
+            {% for materiel in site.materiels %}
+            <tr>
+                <td>{{materiel.materiel_type_materiels.marque}}</td>
+                <td>{{materiel.materiel_type_materiels.modele}}</td>
+                <td>{{materiel.numero_serie}}</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-10 mx-auto">
+
+        <a href="">Supprimer</a>
+        <a href="">Mettre à jour</a>
+    </div>
+</div>
+
+{% endblock %}

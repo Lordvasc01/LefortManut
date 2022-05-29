@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <h4>Cloture de l'ordre de maintenance N°:{{ordre.id}}</h4>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class=" ">
+                <b>Matériel :</b>{{ordre.materiel_om.materiel_type_materiels.marque}} -
+                <b>Modèle :</b> {{ordre.materiel_om.materiel_type_materiels.modele}} -
+                <b>N° série: </b>{{ordre.materiel_om.numero_serie}}
+            <b>Date Création o.m :</b>{{ordre.date_debut.strftime('%d-%m-%Y')}}
+            <br>
+            <b>Objet de l'om :</b><br>
+
+            {{ordre.objet}}
+                </p>
+
+            </div>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        {% for field, errors in ordreform.errors.items() %}
+        <div class="alert alert-warning">
+            {{ ordreform[field].label }}: {{ ', '.join(errors) }}
+        </div>
+        {% endfor %}
+
+        <form action="" method="post">
+
+{{ordreform.csrf_token}}
+            <div class="d-flex justify-content-between">
+                <div class="form-group">
+                    <label for="om_status_id" class="form-label">Status de l'om</label>
+                {{ordreform.om_status}}
+                </div>
+                <div class="form-group">
+                    <label for="cause_id" class="form-label">Origine de l'intervention</label>
+            {{ordreform.cause}}
+                </div>
+                <div class="form-group">
+                      <label for="date_cloture_id" class="form-label">Date de clôture</label>
+                    {{ordreform.date_cloture}}
+
+                </div>
+            </div>
+            <div class="form-group mt-3 d-flex flex-column">
+                <label for="amelioration_id">Amélioration à proposer</label>
+                {{ordreform.amelioration}}
+            </div>
+
+            <div class="form-group text-center my-3">
+                <input type="submit" value="Enregistrer" class="btn btn-sm btn-success">
+            </div>
+
+        </form>
+    </div>
+</div>
+
+{% endblock %}

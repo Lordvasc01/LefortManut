@@ -1,0 +1,12 @@
+.show_table{
+    /*display:none;*/
+    margin-top: 1rem;
+}
+
+.show{
+    cursor:pointer;
+}
+.alert2{
+    border-style:outset;
+    width:50%;
+}

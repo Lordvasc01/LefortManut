@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <h4>Ajouter d'un outil</h4>
+        <hr>
+        <form action="" method="post">
+        {{outilform.csrf_token}}
+            <div class="mb-3">
+                <label for="Designation">Designation</label>
+                {{outilform.designation}}
+            </div>
+            <div class="mb-3">
+                <label for="reference_serie_id">Reference</label>
+                {{outilform.reference}}
+            </div>
+            <div class="mb-3">
+                <label for="prix_id">Prix</label>
+                {{outilform.prix}}
+            </div>
+            <div class="mb-3">
+                <label for="fournisseur_id">Fournisseur</label>
+                {{outilform.fournisseur}}
+            </div>
+            <div class="mb-3">
+                <label for="info_id">Info</label>
+                {{outilform.info}}
+            </div>
+
+<div class="mb-3 text-center">
+    <input type="reset" class="btn btn-sm btn-warning">
+                <input class="btn btn-sm btn-success" value="Enregistrer" type="submit">
+            </div>
+
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,41 @@
+#see_material{
+    cursor: pointer;
+}
+#resultat-row{
+    display:none;
+    position: absolute;
+    z-index: 122222;
+    background-color: white;
+     width:max-content;
+    padding:1rem 0rem;
+    border:1px outset grey;
+    overflow:auto;
+}
+
+#resultat-materieltype{
+    max-height:40vh;
+    height: max-content;
+    overflow:auto;
+}
+
+#materieltype_id{
+ max-height:40vh;
+    height: max-content;
+    overflow:auto;
+    border: outset 1px grey;
+    padding:1rem;
+    list-style: none;
+    width:max-content;
+   border-radius:5px;
+   margin-left:2rem;
+}
+
+#materieltype_id label:hover, #resultat-materieltype li:hover{
+    cursor: pointer;
+    background-color:#e9ecef;
+    color:blue;
+}
+
+#numero_serie{
+    width:100%
+}

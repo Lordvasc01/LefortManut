@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="d-flex justify-content-between">
+            <div class="w-50">
+                <h4>Liste des sites</h4>
+            </div>
+            <div>
+                <a href="{{url_for('site')}}" class="btn btn-sm btn-success">Ajouter un site</a>
+            </div>
+        </div>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 mx-auto">
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Ville</th>
+                <th>Info</th>
+                </tr>
+            </thead>
+            <tbody>{% for materiel in liste_sites %}
+            <tr>
+                <td><a href="{{url_for('site_update',site_id=materiel.id)}}">{{materiel.nom}}</a></td>
+                <td>{{materiel.ville}}</td>
+                <td>{{materiel.info}}</td>
+                </td>
+                <td><a href=""><span style="color:red; font-weight:bold">X</span></a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+{% endblock %}

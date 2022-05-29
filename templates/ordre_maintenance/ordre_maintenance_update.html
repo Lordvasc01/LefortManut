@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+
+        <h5>Mise à jour de l'ordre de maintenance N°:{{ordre.id}}</h5>
+        <hr>
+
+<form action="" method="post">
+    {{ordre_maintenanceform.csrf_token}}
+    <div class="d-flex justify-content-around">
+          <div>
+         <label for="materiel_id_id" class="form-label">Materiel</label>
+    {{ordre_maintenanceform.materiel_id}}
+    </div>
+        <div>
+        <label for="materiel_id_id" class="form-label">Status</label>
+    {{ordre_maintenanceform.om_status}}
+    </div>
+    <div>
+        <label for="materiel_id_id" class="form-label">Date: </label>
+    {{ordre_maintenanceform.date_debut}}
+    </div>
+
+    </div>
+    <hr>
+<div>
+        <label for="objet_id" class="form-label">Objet de l'om</label>
+    {{ordre_maintenanceform.objet}}
+    </div>
+
+<div class="text-center my-5">
+    <input class="btn btn-sm btn-success" type="submit">
+</div>
+
+</form>
+
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="d-flex justify-content-between">
+            <div class="w-50">
+                <h4>Listes des matériels type </h4>
+            </div>
+
+        </div>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 mx-auto">
+        <table class="table">
+            <thead>
+
+            <tr>
+                <th>N°</th>
+                <th>Marque</th>
+                <th>Modèle</th>
+                <th>categorie</th>
+                <th>Documents</th>
+                <th style="width:25rem">info</th>
+            <th>Créée par:</th>
+            <th>le:</th></tr>
+            </thead>
+            <tbody>{% for materiel in toto.items %}
+            <tr>
+                <td><a href="{{url_for('materiel_detail', materiel_id=materiel.id)}}">mat-{{materiel.id}}</a></td>
+                <td>{{materiel.marque}}</td>
+                <td>{{materiel.modele}}</td>
+                <td>{{materiel.categorie}}</td>
+                <td>{% if materiel.document%}
+                    <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book-half" viewBox="0 0 16 16">
+  <path d="M8.5 2.687c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
+</svg></span> {% endif %}</td>
+                <td>{% if materiel.info %}{% autoescape false %} {{materiel.info.replace('\n','<br>')[:350]}} {% endautoescape %}...{% endif%}</td>
+                <td>{{materiel.user.username}}</td>
+                <td>{{materiel.created_date.strftime('%d-%m-%Y %H:%I')}}</td>
+                <td>{% if current_user==materiel.user %}
+                    <a href="{{url_for('materiel_delete', materiel_id=materiel.id)}}"><span style="color:red; font-weight:bold">X</span></a>
+                    {% endif %}
+                </td>
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+<div class="row">
+    <div class="col-md-8 mx-auto text-center d-flex justify-content-center">
+
+
+      <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+              {% if toto.prev_num %}
+            <li class="page-item"><a class="page-link" href="{{url_for('materiels', page=toto.prev_num)}}">Previous</a></li>
+              {% endif%}
+          {%- for page in toto.iter_pages() %}
+            {% if page %}
+              {% if page != toto.page %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('materiels', page=page) }}">{{ page }}</a></li>
+              {% else %}
+                <li class="page-item page-link"><strong>{{ page }}</strong></li>
+              {% endif %}
+            {% else %}
+              <span class=ellipsis>…</span>
+            {% endif %}
+          {%- endfor %}
+
+              {% if toto.next_num %}
+            <li class="page-item"><a class="page-link" href="{{url_for('materiels', page=toto.next_num)}}">Next</a></li>
+              {% endif %}
+
+          </ul>
+        </nav>
+
+</div>
+    <div class="row">
+        <div class="col-md-10 mx-auto mb-3">
+             <div class="text-end">
+                <a href="{{url_for('materiel')}}" class="btn btn-sm btn-success">Ajouter un matériel type</a>
+            </div>
+        </div>
+
+    </div>
+
+
+
+{% endblock %}

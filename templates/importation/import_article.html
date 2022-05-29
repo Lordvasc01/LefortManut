@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <h6>Importation d'articles</h6>
+        <form action="" method="post" enctype="multipart/form-data">
+    {% for field in form %}
+    {{field.label}} {{field}} <br>
+    {% endfor %}
+    <input type="submit">
+</form>
+    </div>
+</div>
+
+
+{% endblock %}

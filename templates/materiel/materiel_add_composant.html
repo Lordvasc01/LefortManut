@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+        <div class="col-md-6 mx-auto">
+            <h4 style="text-decoration:underline" class="margin-auto">Ajout d'un composant</h4>
+            {{materiel.marque}} {{materiel.modele}}
+
+        </div>
+</div>
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <form action="" method="post">
+            {{materielform.csrf_token}}
+            <div class="mb-3">
+                <label for="sousensembles_id" class="form-label">Composants</label>
+                {{materielform.sousensembles}}
+            </div>
+            <div class="mb-3">
+
+                <input type="hidden" name="materiel_id" id="materiel_id_id" value="{{materiel.id}}">
+            </div>
+            <div class="text-center">
+                <input type="submit" class="btn btn-sm btn-success">
+            </div>
+
+
+        </form>
+    </div>
+</div>
+{% endblock %}

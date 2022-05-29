@@ -1,0 +1,272 @@
+{% extends 'base.html' %}
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/ordre_maintenance_detail.css')}}">
+{% endblock %}
+
+{% block content %}
+
+
+
+
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="d-flex justify-content-between">
+                <div class="w-50 alert alert-primary">
+                    <h5>Détail de l'ordre de maintenance N°{{ordre.id}}</h5>
+                </div>
+            <div>
+                <img src="{{url_for('static',filename='assets/fond.png')}}" style="position:absolute; z-index:10; right:5rem; top:1rem" width="90" />
+            </div>
+
+
+        </div>
+        <hr>
+    </div>
+</div>
+
+    <div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="d-flex ">
+            <div class="w-50" style="font-size:1rem">
+                <table class="table w-75">
+                    <tbody>
+                    <tr>
+                        <td><b class="text-muted">Matériel:</b></td>
+                        <td>{{ordre.materiel_om.materiel_type_materiels.marque}}</td></tr>
+                    <tr>
+                        <td><b class="text-muted">Modèle:</b></td>
+                        <td><a style="text-decoration:none" target="_blank"  title="Voir le matériel type" href="{{url_for('materiel_detail',materiel_id=ordre.materiel_om.materiel_type_materiels.id)}}">{{ordre.materiel_om.materiel_type_materiels.modele}}</a></td></tr>
+                    <tr>
+                        <td><b class="text-muted">N° série: </b> </td>
+                        <td><a style="text-decoration:none" target="_blank"  title="Voir le matériel sur site" href="{{url_for('materiel_insite_detail',materielinsite_id=ordre.materiel_om.id)}}">{{ordre.materiel_om.numero_serie}}</a></td></tr>
+                    <tr>
+                        <td><b class="text-muted">Catégorie:</b></td>
+                        <td>{{ordre.materiel_om.materiel_type_materiels.categorie}}</td></tr>
+                    <tr>
+                        <td><b class="text-muted">Site:</b></td>
+                        <td><a style="text-decoration:none" target="_blank"  title="Voir le site"  href="{{url_for('site_detail',site_id=ordre.materiel_om.site_materiels.id)}}">{{ordre.materiel_om.site_materiels.nom}} - {{ordre.materiel_om.site_materiels.ville}}</a></td></tr>
+                    <tr>
+                        <td><b class="text-muted">Documents:</b></td>
+                        <td>{% if ordre.materiel_om.materiel_type_materiels.document %}
+                         {% for data in ordre.materiel_om.materiel_type_materiels.document %}
+                            <span ><a class="btn badge bg-primary" href="{{url_for('download_file', name=data.path)}}" target="_blank" title="{{data.descriptif}}">{{data.nom}} - {{data.descriptif[:10]}}</a></span>
+                        {% endfor %}
+                    {% else %}
+                        <span class="badge bg-secondary">Aucun</span>
+                    {% endif %}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+
+
+
+            </div>
+            <div  class="w-50" style="position:relative" >
+                <div>
+                   <p><small>Date Création o.m :</small>{{ordre.date_debut.strftime('%d-%m-%Y')}} </p>
+                    <p><small>Date clotûre o.m:</small>
+                    {% if ordre.date_cloture %}
+                        <span class="text-success">{{ordre.date_cloture.strftime('%d-%m-%Y')}}</span>
+                    {% else %}
+                    <span class="text-danger">Pas de date!</span>
+                    {% endif %}
+                   </p>
+                    <p>
+                        <small>Status de l'o.m:</small>
+                        {% if ordre.om_status=='clos' %}
+                        <span class="text-success">{{ordre.om_status}}</span>
+                        {% else %}<span class="text-danger">{{ordre.om_status}}</span>
+                        {% endif %}
+                    </p>
+
+
+                </div>
+                <div style="position:absolute; bottom:0px">
+                    <div class="d-flex justify-content-between ">
+                    {% if ordre.om_status!='clos' %}
+                <div>
+                    <span class="alert alert-warning">L'ordre de maintenance n'est pas clôs!</span>
+                </div>
+                <div>
+                    <a class="btn btn-sm btn-success" href="{{url_for('ordre_maintenance_close',ordre_id=ordre.id)}}">Clôturer l'o.m</a>
+                </div>
+                {% elif ordre.om_status=='clos' %}
+                <div class="mb-4">
+                    <span class="alert alert-primary">L'ordre de maintenance est clôturé!</span>
+                </div>
+                {% endif %}
+                </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-10 mx-auto  my-2  card card2 py-2">
+           <span class="alert alert-secondary h5" style="width:max-content">Documents disponibles: </span>
+
+       <div class="d-flex" style="align-items:baseline">
+        <p class="text-muted">Attaché à l'om:</p>
+
+            <div class="d-flex ms-1" style="width:min-content">
+
+
+            {% if ordre.documents %}
+                 {% for data in ordre.documents %}
+                    <div class="d-flex mx-1">
+                <a class="badge bg-primary" style="text-decoration:none; color:white" href="{{url_for('download_file', name=data.path)}}" target="_blank" title="{{data.descriptif}}">{{data.nom}}</a>
+                <a class="badge bg-danger " style="text-decoration:none; color:white" href="{{url_for('delete_om_file', file_id=data.id)}}"  title="Effacer le fichier" >X</a>
+            </div>
+                {% endfor %}</li>
+            {% else %}
+                <span class="badge bg-primary">Aucun</span>
+            {% endif %}
+                <a style="text-decoration:none" href="{{url_for('document_om', ordre_id=ordre.id)}}" id="add_file" class="badge btn bg-success ms-5">Ajouter un fichier</a>
+
+            </div>
+
+    </div>
+
+
+
+
+    </div>
+
+
+    </div>
+
+
+
+<div class="row d-none" >
+
+    <div class=" col-md-10 mx-auto px-0 mx-2 py-4" >
+        <span class="btn btn-sm btn-primary" id="show_outils">Afficher les outils spécifiques</span>
+        <div class="d-none card mb-4" id="outils">
+
+         <span class="alert alert-secondary h5 m-0" style="width:max-content">Outils spécifiques: </span>
+              <div class="py-2 row row-cols-3 row-cols-md-3 g-1">
+            {% if ordre.materiel_om.materiel_type_materiels.listeoutils %}
+
+            {% for data in ordre.materiel_om.materiel_type_materiels.listeoutils%}
+             <div class="col">
+                  <div class=" card mx-2">
+
+          <div>
+            <h6 class="card-header">{{data.designation}}</h6>
+              <ul>
+                  <li>Réf: {{data.reference}}</li>
+                  <li>Prix: {{data.prix}}€</li>
+                  <li>Fournisseur: {{data.fournisseur}}</li>
+
+              </ul>
+            <div class="mx-2 mb-2 card-text">{{data.info}}</div>
+
+          </div>
+        </div>
+    </div>
+              {% endfor %}
+            {% else %}
+                  <h5>Pas d'outils spécifiques</h5>
+                  {% endif %}
+    </div>
+
+    </div>
+    </div>
+</div>
+
+ <div class="row">
+    <div class="col-md-10 mx-auto my-2  card card2 py-2">
+
+         <p><span class="alert alert-secondary h5 me-5" style="width:8rem; float:left">Objet:</span>
+                <span>{% autoescape false %}{{ordre.objet.replace('\n','<br>')}}{% endautoescape %}</span></p>
+                {% if ordre.gamme_om.id %}
+                <p>Gamme préventive:  <a style="text-decoration:none" href="{{url_for('gamme_detail', gamme_id=ordre.gamme_om.id)}}">{{ordre.gamme_om.nom}} - {{ordre.gamme_om.categorie}}</a></p>
+                {% endif %}
+
+            </div>
+
+
+
+</div>
+<div class="row">
+    <div class="col-md-10 mx-auto my-2 pb-3  card card2 py-2">
+        <span class="alert alert-secondary h5" style="width:max-content">Intervention associées:</span>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Intervention</th>
+                    <th>Agent</th>
+                    <th>Action réalisé</th>
+                    <th>Date début/fin</th>
+                    <th>Status</th></tr>
+            </thead>
+            <tbody>
+                {% for data in ordre.interventions %}
+            <tr>
+                <td><a style="text-decoration:none" target='_blank' href="{{url_for('intervention_detail', intervention_id=data.id)}}">Intervention-{{data.id}}</a></td>
+                <td>{{data.operateur_intervention.nom}} - {{data.operateur_intervention.prenom}}</td>
+                <td>{% autoescape false %}{% if data.action %}{{data.action.replace('\n','<br>')}} {% endif %}{% endautoescape %}</td>
+                <td>
+                    {% if data.heure_debut %}{{data.heure_debut.strftime('%d-%m-%Y')}}{% endif %}=>
+                    {% if data.heure_fin %}{{data.heure_fin.strftime('%d-%m-%Y')}}{% endif %}</td>
+                <td>{% if data.status %}
+                    {% if data.status=='termine' %}
+                    <span class="badge bg-secondary">Términé!</span>
+                    {% else %}
+                    <span class="badge bg-secondary">{{data.status}}</span>
+                    {% endif %}
+                    {% else %} Non commencée {% endif %}</td>
+            </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-between my-4">
+
+             <div>{% if not ordre.interventions %}
+                        <span class="alert alert-danger">Il n'y a pas d'intervention attribuée !</span>
+                {% endif %}    </div>
+    {% if ordre.om_status!='clos' %}
+        <div class="text-end">
+
+            <a style="text-decoration:none" class="btn btn-sm btn-success" href="{{url_for('intervention_demande', ordre_id=ordre.id)}}">Ajouter une demande d'intervention</a>
+        </div>
+            {% endif %}
+
+        </div>
+
+
+    </div>
+</div>
+
+
+{% if ordre.om_status=='clos' %}
+<div class="row ">
+    <div class="col-md-10 mb-5 mx-auto card card2 py-2">
+         <span class="alert alert-secondary h5" style="width:max-content">Bilan de l'ordre d maintenance</span>
+        <p>Origine de l'intervention : {{ordre.cause}}</p>
+        <p>Solutions proposées pour fiabiliser l'installation</p>
+        {{ordre.amelioration}}
+
+    </div>
+
+</div>
+{% endif %}
+
+<div class="row">
+    <div class="col-md-10 mx-auto text-end mb-5">
+        {% if not ordre.interventions %}
+        <a class="btn btn-sm btn-danger" href="">Supprimer</a>
+        {% endif %}
+        <a class="btn btn-sm btn-success" href="{{url_for('ordre_maintenance_update', ordre_id=ordre.id)}}">Mettre à jour</a>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="{{url_for('static', filename='js/ordre_maintenance_detail.js')}}"></script>
+{% endblock %}
